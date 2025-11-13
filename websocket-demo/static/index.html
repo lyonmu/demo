@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WebSocket Demo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 800px;
+            width: 100%;
+            padding: 30px;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .status {
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .status.connected {
+            background: #d4edda;
+            color: #155724;
+            border: 2px solid #c3e6cb;
+        }
+
+        .status.disconnected {
+            background: #f8d7da;
+            color: #721c24;
+            border: 2px solid #f5c6cb;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-connect {
+            background: #28a745;
+            color: white;
+        }
+
+        .btn-disconnect {
+            background: #dc3545;
+            color: white;
+        }
+
+        .messages {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            padding: 20px;
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+
+        .message-item {
+            background: white;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .message-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .message-id {
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .message-type {
+            background: #667eea;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+        }
+
+        .message-content {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+
+        .message-data {
+            background: #f8f9fa;
+            padding: 10px;
+            border-radius: 5px;
+            font-size: 14px;
+            color: #555;
+        }
+
+        .message-data-item {
+            margin: 5px 0;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔌 WebSocket Demo</h1>
+        
+        <div id="status" class="status disconnected">
+            未连接
+        </div>
+
+        <div class="controls">
+            <button class="btn-connect" onclick="connect()">连接</button>
+            <button class="btn-disconnect" onclick="disconnect()">断开</button>
+        </div>
+
+        <div class="messages" id="messages">
+            <div style="text-align: center; color: #999; padding: 20px;">
+                等待连接...
+            </div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-value" id="totalMessages">0</div>
+                <div class="stat-label">总消息数</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="lastMessageId">-</div>
+                <div class="stat-label">最新消息ID</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="connectionTime">00:00</div>
+                <div class="stat-label">连接时长</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let ws = null;
+        let messageCount = 0;
+        let startTime = null;
+        let timerInterval = null;
+
+        function connect() {
+            if (ws && ws.readyState === WebSocket.OPEN) {
+                alert('已经连接了！');
+                return;
+            }
+
+            const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsUrl = `${protocol}//${window.location.host}/ws`;
+            
+            ws = new WebSocket(wsUrl);
+
+            ws.onopen = function() {
+                updateStatus(true);
+                startTime = new Date();
+                startTimer();
+                document.getElementById('messages').innerHTML = '';
+                messageCount = 0;
+                updateStats();
+            };
+
+            ws.onmessage = function(event) {
+                const message = JSON.parse(event.data);
+                displayMessage(message);
+                messageCount++;
+                updateStats();
+            };
+
+            ws.onerror = function(error) {
+                console.error('WebSocket error:', error);
+            };
+
+            ws.onclose = function() {
+                updateStatus(false);
+                stopTimer();
+                ws = null;
+            };
+        }
+
+        function disconnect() {
+            if (ws) {
+                ws.close();
+            }
+        }
+
+        function updateStatus(connected) {
+            const statusEl = document.getElementById('status');
+            if (connected) {
+                statusEl.textContent = '✅ 已连接';
+                statusEl.className = 'status connected';
+            } else {
+                statusEl.textContent = '❌ 未连接';
+                statusEl.className = 'status disconnected';
+            }
+        }
+
+        function displayMessage(message) {
+            const messagesDiv = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'message-item';
+            
+            const timestamp = new Date(message.timestamp).toLocaleString('zh-CN');
+            
+            messageDiv.innerHTML = `
+                <div class="message-header">
+                    <span class="message-id">ID: ${message.id}</span>
+                    <span class="message-type">${message.type}</span>
+                    <span>${timestamp}</span>
+                </div>
+                <div class="message-content">${message.content}</div>
+                <div class="message-data">
+                    <div class="message-data-item"><strong>状态:</strong> ${message.data.status}</div>
+                    <div class="message-data-item"><strong>值:</strong> ${message.data.value.toFixed(2)}</div>
+                    <div class="message-data-item"><strong>计数:</strong> ${message.data.count}</div>
+                </div>
+            `;
+            
+            messagesDiv.insertBefore(messageDiv, messagesDiv.firstChild);
+            
+            // 限制显示的消息数量
+            while (messagesDiv.children.length > 50) {
+                messagesDiv.removeChild(messagesDiv.lastChild);
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('totalMessages').textContent = messageCount;
+            if (messageCount > 0) {
+                const messages = document.querySelectorAll('.message-item');
+                if (messages.length > 0) {
+                    const lastId = messages[0].querySelector('.message-id').textContent.match(/\d+/)[0];
+                    document.getElementById('lastMessageId').textContent = lastId;
+                }
+            }
+        }
+
+        function startTimer() {
+            timerInterval = setInterval(() => {
+                if (startTime) {
+                    const elapsed = Math.floor((new Date() - startTime) / 1000);
+                    const minutes = Math.floor(elapsed / 60).toString().padStart(2, '0');
+                    const seconds = (elapsed % 60).toString().padStart(2, '0');
+                    document.getElementById('connectionTime').textContent = `${minutes}:${seconds}`;
+                }
+            }, 1000);
+        }
+
+        function stopTimer() {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+                timerInterval = null;
+            }
+            document.getElementById('connectionTime').textContent = '00:00';
+        }
+
+        // 页面加载时自动连接
+        window.onload = function() {
+            // 可以取消注释下面这行来自动连接
+            // connect();
+        };
+    </script>
+</body>
+</html>
+

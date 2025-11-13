@@ -1,0 +1,15 @@
+services:
+  envoy-proxy:
+    restart: unless-stopped
+    container_name: envoy-proxy-ws-demo
+    image: envoyproxy/envoy:v1.36-latest
+    environment:
+      TZ: Asia/Shanghai
+    network_mode: host
+    command:
+      - "-c"
+      - "/etc/envoy/envoy.yaml"
+      - "--log-level"
+      - "info"
+    volumes:
+      - ./envoy.yaml:/etc/envoy/envoy.yaml:ro
