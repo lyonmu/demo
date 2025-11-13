@@ -32,8 +32,6 @@ static_resources:
                             path: "/ws"
                           route:
                             cluster: envoy-proxy-ws-demo-cluster
-                            upgrade_configs:
-                              - upgrade_type: websocket
                         - match:
                             prefix: "/"
                           route:

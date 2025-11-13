@@ -102,7 +102,7 @@ func broadcastMessage() {
 
 // startTimer 启动定时推送任务
 func startTimer() {
-	ticker := time.NewTicker(5 * time.Second) // 每 5 秒推送一次
+	ticker := time.NewTicker(1 * time.Second) // 每 1 秒推送一次
 	defer ticker.Stop()
 
 	messageID := 0
