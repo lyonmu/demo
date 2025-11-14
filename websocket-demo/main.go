@@ -39,6 +39,33 @@ var broadcast = make(chan Message)
 
 // handleWebSocket 处理 WebSocket 连接
 func handleWebSocket(c *gin.Context) {
+	// 读取查询参数（从 URL 中获取的自定义信息）
+	token := c.Query("token")
+	userID := c.Query("user_id")
+	clientID := c.Query("client_id")
+
+	// 读取请求头（如果客户端通过其他方式设置了请求头）
+	authHeader := c.GetHeader("Authorization")
+	customHeader := c.GetHeader("X-Custom-Header")
+
+	// 打印连接信息
+	log.Printf("New WebSocket connection request:")
+	if token != "" {
+		log.Printf("  - Token (from query): %s", token)
+	}
+	if userID != "" {
+		log.Printf("  - User ID (from query): %s", userID)
+	}
+	if clientID != "" {
+		log.Printf("  - Client ID (from query): %s", clientID)
+	}
+	if authHeader != "" {
+		log.Printf("  - Authorization header: %s", authHeader)
+	}
+	if customHeader != "" {
+		log.Printf("  - Custom header: %s", customHeader)
+	}
+
 	// 升级 HTTP 连接为 WebSocket
 	conn, err := upgrader.Upgrade(c.Writer, c.Request, nil)
 	if err != nil {
@@ -47,12 +74,21 @@ func handleWebSocket(c *gin.Context) {
 	}
 	defer conn.Close()
 
+	// 存储客户端信息（可以扩展为更复杂的客户端管理）
+	clientInfo := map[string]interface{}{
+		"token":       token,
+		"user_id":     userID,
+		"client_id":   clientID,
+		"auth_header": authHeader,
+	}
+	log.Printf("Client info: %+v", clientInfo)
+
 	// 注册新客户端
 	clients[conn] = true
 	log.Printf("New client connected. Total clients: %d", len(clients))
 
 	// 启动一个 goroutine 来处理从客户端接收的消息
-	go handleClientMessages(conn)
+	go handleClientMessages(conn, clientInfo)
 
 	// 保持连接活跃，等待客户端断开
 	for {
@@ -66,7 +102,7 @@ func handleWebSocket(c *gin.Context) {
 }
 
 // handleClientMessages 处理来自客户端的消息
-func handleClientMessages(conn *websocket.Conn) {
+func handleClientMessages(conn *websocket.Conn, clientInfo map[string]interface{}) {
 	for {
 		_, message, err := conn.ReadMessage()
 		if err != nil {
@@ -74,7 +110,29 @@ func handleClientMessages(conn *websocket.Conn) {
 			break
 		}
 		log.Printf("Received from client: %s", message)
-		// 这里可以处理客户端发送的消息
+
+		// 尝试解析为 JSON 消息
+		var msg map[string]interface{}
+		if err := json.Unmarshal(message, &msg); err == nil {
+			// 处理认证消息
+			if msgType, ok := msg["type"].(string); ok && msgType == "auth" {
+				log.Printf("Received auth message from client:")
+				if token, ok := msg["token"].(string); ok && token != "" {
+					clientInfo["token"] = token
+					log.Printf("  - Updated token: %s", token)
+				}
+				if userID, ok := msg["user_id"].(string); ok && userID != "" {
+					clientInfo["user_id"] = userID
+					log.Printf("  - Updated user_id: %s", userID)
+				}
+				if clientID, ok := msg["client_id"].(string); ok && clientID != "" {
+					clientInfo["client_id"] = clientID
+					log.Printf("  - Updated client_id: %s", clientID)
+				}
+				log.Printf("Updated client info: %+v", clientInfo)
+			}
+		}
+		// 这里可以处理其他类型的客户端消息
 	}
 }
 

@@ -106,6 +106,48 @@ http://localhost:19894
 - `GET /ws` - WebSocket 连接端点
 - `GET /health` - 健康检查端点，返回当前连接的客户端数量
 
+## 自定义请求头/参数
+
+由于标准 WebSocket API 不支持在构造函数中直接设置自定义请求头，本 demo 提供了两种方式来传递自定义信息：
+
+### 方式一：URL 查询参数（推荐）
+
+在连接时通过 URL 查询参数传递信息：
+
+```
+ws://localhost:8080/ws?token=your-token&user_id=user123&client_id=client-abc
+```
+
+前端界面提供了配置面板，可以输入：
+
+- **Token / Authorization**: 认证令牌
+- **User ID**: 用户 ID
+- **Client ID**: 客户端 ID
+
+### 方式二：连接后发送认证消息
+
+连接建立后，客户端可以立即发送一个认证消息：
+
+```json
+{
+  "type": "auth",
+  "token": "your-token",
+  "user_id": "user123",
+  "client_id": "client-abc",
+  "timestamp": "2024-01-01T12:00:00Z"
+}
+```
+
+### 后端处理
+
+后端会：
+
+1. 从 URL 查询参数中读取 `token`、`user_id`、`client_id`
+2. 从 HTTP 请求头中读取 `Authorization` 和 `X-Custom-Header`
+3. 处理连接后收到的认证消息，更新客户端信息
+
+所有信息都会在服务端日志中打印出来，方便调试。
+
 ## 示例消息
 
 ```json

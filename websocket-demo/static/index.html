@@ -62,6 +62,70 @@
             margin-bottom: 20px;
         }
 
+        .config-panel {
+            background: #f8f9fa;
+            border: 2px solid #dee2e6;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .config-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .config-header h3 {
+            margin: 0;
+            color: #667eea;
+            font-size: 16px;
+        }
+
+        .config-content {
+            margin-top: 15px;
+            display: none;
+        }
+
+        .config-content.show {
+            display: block;
+        }
+
+        .config-item {
+            margin-bottom: 15px;
+        }
+
+        .config-item label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .config-item input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .config-item input:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.2);
+        }
+
+        .config-note {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+            font-style: italic;
+        }
+
         button {
             flex: 1;
             padding: 12px 24px;
@@ -181,6 +245,28 @@
             未连接
         </div>
 
+        <div class="config-panel">
+            <div class="config-header" onclick="toggleConfig()">
+                <h3>⚙️ 连接配置（自定义请求头）</h3>
+                <span id="configToggle">▼</span>
+            </div>
+            <div class="config-content" id="configContent">
+                <div class="config-item">
+                    <label for="customToken">Token / Authorization:</label>
+                    <input type="text" id="customToken" placeholder="例如: Bearer your-token-here">
+                    <div class="config-note">将通过 URL 查询参数传递（标准 WebSocket API 不支持自定义请求头）</div>
+                </div>
+                <div class="config-item">
+                    <label for="customUserId">User ID:</label>
+                    <input type="text" id="customUserId" placeholder="例如: user123">
+                </div>
+                <div class="config-item">
+                    <label for="customClientId">Client ID:</label>
+                    <input type="text" id="customClientId" placeholder="例如: client-abc">
+                </div>
+            </div>
+        </div>
+
         <div class="controls">
             <button class="btn-connect" onclick="connect()">连接</button>
             <button class="btn-disconnect" onclick="disconnect()">断开</button>
@@ -214,6 +300,13 @@
         let startTime = null;
         let timerInterval = null;
 
+        function toggleConfig() {
+            const content = document.getElementById('configContent');
+            const toggle = document.getElementById('configToggle');
+            content.classList.toggle('show');
+            toggle.textContent = content.classList.contains('show') ? '▲' : '▼';
+        }
+
         function connect() {
             if (ws && ws.readyState === WebSocket.OPEN) {
                 alert('已经连接了！');
@@ -221,10 +314,38 @@
             }
 
             const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsUrl = `${protocol}//${window.location.host}/ws`;
+            let wsUrl = `${protocol}//${window.location.host}/ws`;
+            
+            // 构建查询参数（用于传递自定义请求头信息）
+            // 注意：标准 WebSocket API 不支持直接设置自定义请求头
+            // 因此我们使用 URL 查询参数来传递这些信息
+            const params = new URLSearchParams();
+            
+            const token = document.getElementById('customToken').value.trim();
+            const userId = document.getElementById('customUserId').value.trim();
+            const clientId = document.getElementById('customClientId').value.trim();
+            
+            if (token) {
+                params.append('token', token);
+            }
+            if (userId) {
+                params.append('user_id', userId);
+            }
+            if (clientId) {
+                params.append('client_id', clientId);
+            }
+            
+            // 如果有查询参数，添加到 URL
+            const queryString = params.toString();
+            if (queryString) {
+                wsUrl += '?' + queryString;
+                console.log('连接 URL（包含自定义参数）:', wsUrl);
+            }
             
             ws = new WebSocket(wsUrl);
-
+            
+            // 连接建立后，可以立即发送一个包含认证信息的消息
+            // 这是另一种传递敏感信息的方式
             ws.onopen = function() {
                 updateStatus(true);
                 startTime = new Date();
@@ -232,7 +353,21 @@
                 document.getElementById('messages').innerHTML = '';
                 messageCount = 0;
                 updateStats();
+                
+                // 连接建立后，立即发送认证信息（如果需要）
+                if (token || userId || clientId) {
+                    const authMessage = {
+                        type: 'auth',
+                        token: token,
+                        user_id: userId,
+                        client_id: clientId,
+                        timestamp: new Date().toISOString()
+                    };
+                    ws.send(JSON.stringify(authMessage));
+                    console.log('已发送认证信息:', authMessage);
+                }
             };
+
 
             ws.onmessage = function(event) {
                 const message = JSON.parse(event.data);
@@ -331,7 +466,7 @@
         // 页面加载时自动连接
         window.onload = function() {
             // 可以取消注释下面这行来自动连接
-            // connect();
+            connect();
         };
     </script>
 </body>
