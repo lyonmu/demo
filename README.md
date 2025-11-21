@@ -6,4 +6,5 @@
 
 - [websocket-demo](./websocket-demo/) - websocket 通信
 - [consul-demo](./consul-demo/) - consul 服务注册
-- [base-demo](./base-demo/) - base-demo 简单的基础demo 
+- [base-demo](./base-demo/) - base-demo 简单的基础 demo
+- [envoy-demo](./envoy-demo/) - envoy-demo envoy 使用 demo
