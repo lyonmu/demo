@@ -43,9 +43,56 @@ static_resources:
           common_tls_context:
             tls_certificates:
             - certificate_chain:
-                filename: "/opt/certs/example.com.crt"
+                inline_string: |
+                  -----BEGIN CERTIFICATE-----
+                  MIIDDTCCAfWgAwIBAgIUWhIJn7ZMkJbRkXacl786rdXrJZcwDQYJKoZIhvcNAQEL
+                  BQAwFjEUMBIGA1UEAwwLZXhhbXBsZS5jb20wHhcNMjUxMTIxMDgwNjQwWhcNMjYx
+                  MTIxMDgwNjQwWjAWMRQwEgYDVQQDDAtleGFtcGxlLmNvbTCCASIwDQYJKoZIhvcN
+                  AQEBBQADggEPADCCAQoCggEBAJATuiZtRfNA5IXXw+wk6S0l0fylO/JiaqfJ/nuX
+                  xmlM93CYJA+9mVGxXOl03G1Ap+UyjQsWiWcQ8EcG+vspUDWsXnFYU73PBlmtGH0c
+                  FltIyc4OtrFYbg+wRKueWAdtGRbDIYau9pub544M3rBjcuMYHcIM4kZvffmjcaoQ
+                  AGe08gkNSrisD96pb3zt1FUioeGkGieQCKbBt7/WKDYhpw2Z1jTjGDpM+rehir6D
+                  PUE9ER+VXeEdROimlLxsYZt9nPxlvP0pS7jOQXOvPNn8rgeWHLufZP+ymMHrVR7Q
+                  NJ5QqB7DSkRi4OxjACGxori5TOmN3d4247bsTKKz5Mb8ktECAwEAAaNTMFEwHQYD
+                  VR0OBBYEFIa2/WlrPcu7bICQEnP1JGKrB/EdMB8GA1UdIwQYMBaAFIa2/WlrPcu7
+                  bICQEnP1JGKrB/EdMA8GA1UdEwEB/wQFMAMBAf8wDQYJKoZIhvcNAQELBQADggEB
+                  AHNviowhlKiUaXqBeNdZbAqILgXwGW7S93Os39FRKIc00wptvhrZUGdsrCKMkugq
+                  TWsroDLAeK9XwefAgE/PHxSaNIKUwDY7V4m+nBSU0Zq4xr1mTpvyDuySqnkj/rbX
+                  0esv78B5lKhaKzX1Tfo1o0Lrszu7pKnmJSoUWDT3tkb2YAqfbR11KyDndVHddnF1
+                  zLOryOjtjk6ITBtBZe/f8LMmt62Q6qMREL9ek2Djo2hKJqSGHSJLh6iypHtH8w8q
+                  rbS8xEt+tpToyR2p9Dja83+FAbWQUjvU3ypY2NUNAbfZfVV68zE0FYBGyWmufqcA
+                  3cvSuGqhNVgIJQzSkaGyJXQ=
+                  -----END CERTIFICATE-----
               private_key:
-                filename: "/opt/certs/example.com.key"
+                inline_string: |
+                  -----BEGIN PRIVATE KEY-----
+                  MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCQE7ombUXzQOSF
+                  18PsJOktJdH8pTvyYmqnyf57l8ZpTPdwmCQPvZlRsVzpdNxtQKflMo0LFolnEPBH
+                  Bvr7KVA1rF5xWFO9zwZZrRh9HBZbSMnODraxWG4PsESrnlgHbRkWwyGGrvabm+eO
+                  DN6wY3LjGB3CDOJGb335o3GqEABntPIJDUq4rA/eqW987dRVIqHhpBonkAimwbe/
+                  1ig2IacNmdY04xg6TPq3oYq+gz1BPREflV3hHUToppS8bGGbfZz8Zbz9KUu4zkFz
+                  rzzZ/K4Hlhy7n2T/spjB61Ue0DSeUKgew0pEYuDsYwAhsaK4uUzpjd3eNuO27Eyi
+                  s+TG/JLRAgMBAAECggEABpXAO6K26xKbieUoq+cBTpzx51gt+zq1oTbsOKiL2vg3
+                  lEp/1hsA95OMVDyRGTU2oepuOS7YgitrWp5eY5L/JX+GpCuN+EOOs2k5O06d/vdp
+                  XHpJA1CwBxY0ApwEGKLLM20hCnoor0gFjJ/YoGXgibHqekSt0DD8Uv0+DrBt3vom
+                  nkUBT1jzE6XJkL4ll8fyROuTKKvzl+IzdLL8gPa03JX98GkLLCaZolToUFDVq+Qd
+                  r1glqJtvtvmpjxw55npBBbi6f4F5bZPpkScxOWpOIjtz9fIRQXdGuDYeuZUVZDmJ
+                  UftVoW0M+9fQm2Z2as4m7zxLK0YPBITFmZzrWPPSuQKBgQDEwg39RW+3rGViqo9g
+                  9kJHEOKcakOWlLeWJiXTs+a0rk3GqDJUT+9EjqaNl3OlLUJATNu7KtqYZJ91WprJ
+                  GdxEnaPyij7/++45rOV8iU4JtOBN1DXVePv/865uAM3wzzL9LHmKVDG+QHIJQXVM
+                  MNGUlos/GQkwLtYcicgGSPP2VwKBgQC7dRE6uzuud1zYeJjS7ZZkxPmM39iWb6vV
+                  OwLm1M0b6ZDJqSb46p0IL19ilPyB9zlpzAQiKcY1HNZ5oB0PwdSq7sKvBc49deFp
+                  +L/co1b99bODO3OoLi6EyxbgMP+stPDdhtRaKxr+Ply6NHiUL6fBqfeIL+gMxBob
+                  846Dy4l3FwKBgGPkxed1bl/JJfwu7fZjcIjWGMci6Ee2H3Ma0Q+ngZTv/crDMDJA
+                  FxEuf37ZirwsuzscCl7/RdYjGBYjtvwspfksM8V6zLt4M52SmzxcFYO2Ej9RYzeL
+                  Yh2zoTZ2MBh3icKh5t8FGfAmlf7+/cd97ZnLyMxzMIgG72uzxBr0xO+nAoGAAtTr
+                  47U8W5BWCLcZp+YK5Y7MLkKbZPpe4CO6EX6Zcph+pW02t3/jy2Hb0QNrJRN0/JIm
+                  ZdW3tsmuu7uddMV6zvI4Yqh1yxviwdUOIOkewUta4NqfDqVT8pGW0OAsnJFHKjGF
+                  N697AugyQmXUhHiL0jMdGCORH9A+jLmLJ5aFhxUCgYEAgcz1Yu+QL1qtGkuur7s7
+                  yF7If6aebAOSgV/W9Uok1JlGzLAHFZy+GUcJWDIXXd0o1jgWtZ8H8xGI+LrN7C7e
+                  ohSkhcG0NKAp0FqY+qPvFF14zXO6d9KVV/e5rc1CuyotZMWqDWvfwv+LwBEjxqbi
+                  aEkW63K3Rb0xb3o7M8jBwRY=
+                  -----END PRIVATE KEY-----
 
   - name: listener_31672
     address:
@@ -84,9 +131,56 @@ static_resources:
           common_tls_context:
             tls_certificates:
             - certificate_chain:
-                filename: "/opt/certs/example.com.crt"
+                inline_string: |
+                  -----BEGIN CERTIFICATE-----
+                  MIIDDTCCAfWgAwIBAgIUWhIJn7ZMkJbRkXacl786rdXrJZcwDQYJKoZIhvcNAQEL
+                  BQAwFjEUMBIGA1UEAwwLZXhhbXBsZS5jb20wHhcNMjUxMTIxMDgwNjQwWhcNMjYx
+                  MTIxMDgwNjQwWjAWMRQwEgYDVQQDDAtleGFtcGxlLmNvbTCCASIwDQYJKoZIhvcN
+                  AQEBBQADggEPADCCAQoCggEBAJATuiZtRfNA5IXXw+wk6S0l0fylO/JiaqfJ/nuX
+                  xmlM93CYJA+9mVGxXOl03G1Ap+UyjQsWiWcQ8EcG+vspUDWsXnFYU73PBlmtGH0c
+                  FltIyc4OtrFYbg+wRKueWAdtGRbDIYau9pub544M3rBjcuMYHcIM4kZvffmjcaoQ
+                  AGe08gkNSrisD96pb3zt1FUioeGkGieQCKbBt7/WKDYhpw2Z1jTjGDpM+rehir6D
+                  PUE9ER+VXeEdROimlLxsYZt9nPxlvP0pS7jOQXOvPNn8rgeWHLufZP+ymMHrVR7Q
+                  NJ5QqB7DSkRi4OxjACGxori5TOmN3d4247bsTKKz5Mb8ktECAwEAAaNTMFEwHQYD
+                  VR0OBBYEFIa2/WlrPcu7bICQEnP1JGKrB/EdMB8GA1UdIwQYMBaAFIa2/WlrPcu7
+                  bICQEnP1JGKrB/EdMA8GA1UdEwEB/wQFMAMBAf8wDQYJKoZIhvcNAQELBQADggEB
+                  AHNviowhlKiUaXqBeNdZbAqILgXwGW7S93Os39FRKIc00wptvhrZUGdsrCKMkugq
+                  TWsroDLAeK9XwefAgE/PHxSaNIKUwDY7V4m+nBSU0Zq4xr1mTpvyDuySqnkj/rbX
+                  0esv78B5lKhaKzX1Tfo1o0Lrszu7pKnmJSoUWDT3tkb2YAqfbR11KyDndVHddnF1
+                  zLOryOjtjk6ITBtBZe/f8LMmt62Q6qMREL9ek2Djo2hKJqSGHSJLh6iypHtH8w8q
+                  rbS8xEt+tpToyR2p9Dja83+FAbWQUjvU3ypY2NUNAbfZfVV68zE0FYBGyWmufqcA
+                  3cvSuGqhNVgIJQzSkaGyJXQ=
+                  -----END CERTIFICATE-----
               private_key:
-                filename: "/opt/certs/example.com.key"
+                inline_string: |
+                  -----BEGIN PRIVATE KEY-----
+                  MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCQE7ombUXzQOSF
+                  18PsJOktJdH8pTvyYmqnyf57l8ZpTPdwmCQPvZlRsVzpdNxtQKflMo0LFolnEPBH
+                  Bvr7KVA1rF5xWFO9zwZZrRh9HBZbSMnODraxWG4PsESrnlgHbRkWwyGGrvabm+eO
+                  DN6wY3LjGB3CDOJGb335o3GqEABntPIJDUq4rA/eqW987dRVIqHhpBonkAimwbe/
+                  1ig2IacNmdY04xg6TPq3oYq+gz1BPREflV3hHUToppS8bGGbfZz8Zbz9KUu4zkFz
+                  rzzZ/K4Hlhy7n2T/spjB61Ue0DSeUKgew0pEYuDsYwAhsaK4uUzpjd3eNuO27Eyi
+                  s+TG/JLRAgMBAAECggEABpXAO6K26xKbieUoq+cBTpzx51gt+zq1oTbsOKiL2vg3
+                  lEp/1hsA95OMVDyRGTU2oepuOS7YgitrWp5eY5L/JX+GpCuN+EOOs2k5O06d/vdp
+                  XHpJA1CwBxY0ApwEGKLLM20hCnoor0gFjJ/YoGXgibHqekSt0DD8Uv0+DrBt3vom
+                  nkUBT1jzE6XJkL4ll8fyROuTKKvzl+IzdLL8gPa03JX98GkLLCaZolToUFDVq+Qd
+                  r1glqJtvtvmpjxw55npBBbi6f4F5bZPpkScxOWpOIjtz9fIRQXdGuDYeuZUVZDmJ
+                  UftVoW0M+9fQm2Z2as4m7zxLK0YPBITFmZzrWPPSuQKBgQDEwg39RW+3rGViqo9g
+                  9kJHEOKcakOWlLeWJiXTs+a0rk3GqDJUT+9EjqaNl3OlLUJATNu7KtqYZJ91WprJ
+                  GdxEnaPyij7/++45rOV8iU4JtOBN1DXVePv/865uAM3wzzL9LHmKVDG+QHIJQXVM
+                  MNGUlos/GQkwLtYcicgGSPP2VwKBgQC7dRE6uzuud1zYeJjS7ZZkxPmM39iWb6vV
+                  OwLm1M0b6ZDJqSb46p0IL19ilPyB9zlpzAQiKcY1HNZ5oB0PwdSq7sKvBc49deFp
+                  +L/co1b99bODO3OoLi6EyxbgMP+stPDdhtRaKxr+Ply6NHiUL6fBqfeIL+gMxBob
+                  846Dy4l3FwKBgGPkxed1bl/JJfwu7fZjcIjWGMci6Ee2H3Ma0Q+ngZTv/crDMDJA
+                  FxEuf37ZirwsuzscCl7/RdYjGBYjtvwspfksM8V6zLt4M52SmzxcFYO2Ej9RYzeL
+                  Yh2zoTZ2MBh3icKh5t8FGfAmlf7+/cd97ZnLyMxzMIgG72uzxBr0xO+nAoGAAtTr
+                  47U8W5BWCLcZp+YK5Y7MLkKbZPpe4CO6EX6Zcph+pW02t3/jy2Hb0QNrJRN0/JIm
+                  ZdW3tsmuu7uddMV6zvI4Yqh1yxviwdUOIOkewUta4NqfDqVT8pGW0OAsnJFHKjGF
+                  N697AugyQmXUhHiL0jMdGCORH9A+jLmLJ5aFhxUCgYEAgcz1Yu+QL1qtGkuur7s7
+                  yF7If6aebAOSgV/W9Uok1JlGzLAHFZy+GUcJWDIXXd0o1jgWtZ8H8xGI+LrN7C7e
+                  ohSkhcG0NKAp0FqY+qPvFF14zXO6d9KVV/e5rc1CuyotZMWqDWvfwv+LwBEjxqbi
+                  aEkW63K3Rb0xb3o7M8jBwRY=
+                  -----END PRIVATE KEY-----
 
   - name: listener_31983
     address:
@@ -125,9 +219,56 @@ static_resources:
           common_tls_context:
             tls_certificates:
             - certificate_chain:
-                filename: "/opt/certs/example.com.crt"
+                inline_string: |
+                  -----BEGIN CERTIFICATE-----
+                  MIIDDTCCAfWgAwIBAgIUWhIJn7ZMkJbRkXacl786rdXrJZcwDQYJKoZIhvcNAQEL
+                  BQAwFjEUMBIGA1UEAwwLZXhhbXBsZS5jb20wHhcNMjUxMTIxMDgwNjQwWhcNMjYx
+                  MTIxMDgwNjQwWjAWMRQwEgYDVQQDDAtleGFtcGxlLmNvbTCCASIwDQYJKoZIhvcN
+                  AQEBBQADggEPADCCAQoCggEBAJATuiZtRfNA5IXXw+wk6S0l0fylO/JiaqfJ/nuX
+                  xmlM93CYJA+9mVGxXOl03G1Ap+UyjQsWiWcQ8EcG+vspUDWsXnFYU73PBlmtGH0c
+                  FltIyc4OtrFYbg+wRKueWAdtGRbDIYau9pub544M3rBjcuMYHcIM4kZvffmjcaoQ
+                  AGe08gkNSrisD96pb3zt1FUioeGkGieQCKbBt7/WKDYhpw2Z1jTjGDpM+rehir6D
+                  PUE9ER+VXeEdROimlLxsYZt9nPxlvP0pS7jOQXOvPNn8rgeWHLufZP+ymMHrVR7Q
+                  NJ5QqB7DSkRi4OxjACGxori5TOmN3d4247bsTKKz5Mb8ktECAwEAAaNTMFEwHQYD
+                  VR0OBBYEFIa2/WlrPcu7bICQEnP1JGKrB/EdMB8GA1UdIwQYMBaAFIa2/WlrPcu7
+                  bICQEnP1JGKrB/EdMA8GA1UdEwEB/wQFMAMBAf8wDQYJKoZIhvcNAQELBQADggEB
+                  AHNviowhlKiUaXqBeNdZbAqILgXwGW7S93Os39FRKIc00wptvhrZUGdsrCKMkugq
+                  TWsroDLAeK9XwefAgE/PHxSaNIKUwDY7V4m+nBSU0Zq4xr1mTpvyDuySqnkj/rbX
+                  0esv78B5lKhaKzX1Tfo1o0Lrszu7pKnmJSoUWDT3tkb2YAqfbR11KyDndVHddnF1
+                  zLOryOjtjk6ITBtBZe/f8LMmt62Q6qMREL9ek2Djo2hKJqSGHSJLh6iypHtH8w8q
+                  rbS8xEt+tpToyR2p9Dja83+FAbWQUjvU3ypY2NUNAbfZfVV68zE0FYBGyWmufqcA
+                  3cvSuGqhNVgIJQzSkaGyJXQ=
+                  -----END CERTIFICATE-----
               private_key:
-                filename: "/opt/certs/example.com.key"
+                inline_string: |
+                  -----BEGIN PRIVATE KEY-----
+                  MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCQE7ombUXzQOSF
+                  18PsJOktJdH8pTvyYmqnyf57l8ZpTPdwmCQPvZlRsVzpdNxtQKflMo0LFolnEPBH
+                  Bvr7KVA1rF5xWFO9zwZZrRh9HBZbSMnODraxWG4PsESrnlgHbRkWwyGGrvabm+eO
+                  DN6wY3LjGB3CDOJGb335o3GqEABntPIJDUq4rA/eqW987dRVIqHhpBonkAimwbe/
+                  1ig2IacNmdY04xg6TPq3oYq+gz1BPREflV3hHUToppS8bGGbfZz8Zbz9KUu4zkFz
+                  rzzZ/K4Hlhy7n2T/spjB61Ue0DSeUKgew0pEYuDsYwAhsaK4uUzpjd3eNuO27Eyi
+                  s+TG/JLRAgMBAAECggEABpXAO6K26xKbieUoq+cBTpzx51gt+zq1oTbsOKiL2vg3
+                  lEp/1hsA95OMVDyRGTU2oepuOS7YgitrWp5eY5L/JX+GpCuN+EOOs2k5O06d/vdp
+                  XHpJA1CwBxY0ApwEGKLLM20hCnoor0gFjJ/YoGXgibHqekSt0DD8Uv0+DrBt3vom
+                  nkUBT1jzE6XJkL4ll8fyROuTKKvzl+IzdLL8gPa03JX98GkLLCaZolToUFDVq+Qd
+                  r1glqJtvtvmpjxw55npBBbi6f4F5bZPpkScxOWpOIjtz9fIRQXdGuDYeuZUVZDmJ
+                  UftVoW0M+9fQm2Z2as4m7zxLK0YPBITFmZzrWPPSuQKBgQDEwg39RW+3rGViqo9g
+                  9kJHEOKcakOWlLeWJiXTs+a0rk3GqDJUT+9EjqaNl3OlLUJATNu7KtqYZJ91WprJ
+                  GdxEnaPyij7/++45rOV8iU4JtOBN1DXVePv/865uAM3wzzL9LHmKVDG+QHIJQXVM
+                  MNGUlos/GQkwLtYcicgGSPP2VwKBgQC7dRE6uzuud1zYeJjS7ZZkxPmM39iWb6vV
+                  OwLm1M0b6ZDJqSb46p0IL19ilPyB9zlpzAQiKcY1HNZ5oB0PwdSq7sKvBc49deFp
+                  +L/co1b99bODO3OoLi6EyxbgMP+stPDdhtRaKxr+Ply6NHiUL6fBqfeIL+gMxBob
+                  846Dy4l3FwKBgGPkxed1bl/JJfwu7fZjcIjWGMci6Ee2H3Ma0Q+ngZTv/crDMDJA
+                  FxEuf37ZirwsuzscCl7/RdYjGBYjtvwspfksM8V6zLt4M52SmzxcFYO2Ej9RYzeL
+                  Yh2zoTZ2MBh3icKh5t8FGfAmlf7+/cd97ZnLyMxzMIgG72uzxBr0xO+nAoGAAtTr
+                  47U8W5BWCLcZp+YK5Y7MLkKbZPpe4CO6EX6Zcph+pW02t3/jy2Hb0QNrJRN0/JIm
+                  ZdW3tsmuu7uddMV6zvI4Yqh1yxviwdUOIOkewUta4NqfDqVT8pGW0OAsnJFHKjGF
+                  N697AugyQmXUhHiL0jMdGCORH9A+jLmLJ5aFhxUCgYEAgcz1Yu+QL1qtGkuur7s7
+                  yF7If6aebAOSgV/W9Uok1JlGzLAHFZy+GUcJWDIXXd0o1jgWtZ8H8xGI+LrN7C7e
+                  ohSkhcG0NKAp0FqY+qPvFF14zXO6d9KVV/e5rc1CuyotZMWqDWvfwv+LwBEjxqbi
+                  aEkW63K3Rb0xb3o7M8jBwRY=
+                  -----END PRIVATE KEY-----
 
   clusters:
   - name: service_30880
