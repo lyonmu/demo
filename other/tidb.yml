@@ -1,0 +1,76 @@
+# https://github.com/pingcap/tiup/blob/master/embed/examples/cluster/topology.example.yaml
+global:
+  user: "tidb"
+  ssh_port: 22
+  listen_host: 0.0.0.0
+  arch: "amd64" # "amd64", "arm64" (default: "amd64")
+
+monitored:
+  # The communication port for reporting system information of each node in the TiDB cluster
+  node_exporter_port: 9100
+  # Blackbox_exporter communication port, used for TiDB cluster port monitoring.
+  blackbox_exporter_port: 9115
+
+# 
+server_configs:
+  # https://docs.pingcap.com/zh/tidb/stable/tikv-configuration-file/
+  tikv:
+    memory-usage-limit: "8GiB"
+    slow-log-threshold: "10s"
+    log.level: "error"
+    log.file.max-size: 100
+    log.file.max-days: 3
+    log.file.max-backups: 3
+    server.grpc-compression-type: gzip
+    readpool.storage.use-unified-pool: false
+    readpool.coprocessor.use-unified-pool: true
+    storage.block-cache.capacity: "1GiB"
+    server.status-addr: ""
+  # https://docs.pingcap.com/zh/tidb/stable/pd-configuration-file/
+  pd:
+    pd-server.server-memory-limit: 0.3
+    log.level: "error"
+    log.file.max-size: 100
+    log.file.max-days: 3
+    log.file.max-backups: 3
+  # https://docs.pingcap.com/zh/tidb/stable/tidb-configuration-file/
+  tidb:
+    binlog.enable: false
+    binlog.ignore-error: false
+    server-version: '2025.8.5'
+    log.level: "error"
+    log.file.max-size: 100
+    log.file.max-days: 3
+    log.file.max-backups: 3
+    log.file.compression: "gzip"
+    performance.max-procs: 16
+    instance.tidb_enable_slow_log: false
+    server-memory-limit: '8GiB'
+
+pd_servers:
+  - host: 192.168.122.134
+  - host: 192.168.122.147
+  - host: 192.168.122.253
+
+
+tidb_servers:
+  - host: 192.168.122.134
+  - host: 192.168.122.147
+  - host: 192.168.122.253
+
+tikv_servers:
+  - host: 192.168.122.134
+  - host: 192.168.122.147
+  - host: 192.168.122.253
+
+monitoring_servers:
+  - host: 192.168.122.24
+
+grafana_servers:
+  - host: 192.168.122.24
+
+alertmanager_servers:
+  - host: 192.168.122.24
+
+tiproxy_servers:
+  - host: 192.168.122.24
