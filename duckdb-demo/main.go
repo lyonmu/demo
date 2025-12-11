@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	db, err := sql.Open("duckdb", "")
+	db, err := sql.Open("duckdb", "./test.db")
 	if err != nil {
 		log.Fatal(err)
 	}
